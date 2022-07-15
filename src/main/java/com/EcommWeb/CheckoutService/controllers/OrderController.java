@@ -1,7 +1,9 @@
 package com.EcommWeb.CheckoutService.controllers;
 
+import com.EcommWeb.CheckoutService.models.AddressResponse;
 import com.EcommWeb.CheckoutService.models.CartDetailResponse;
 import com.EcommWeb.CheckoutService.models.CartOrderResponse;
+import com.EcommWeb.CheckoutService.models.CartResponse;
 import com.EcommWeb.CheckoutService.services.OrderServices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @Slf4j
 @RestController
 public class OrderController {
@@ -16,12 +19,10 @@ public class OrderController {
     private OrderServices orderServices;
 
     @PostMapping("/checkout/{order_id}/submit")
-    public ResponseEntity<String> submitOrder (@PathVariable Integer order_id){
+    public ResponseEntity<String> submitOrder (@PathVariable Integer order_id, @RequestBody AddressResponse addressResponse){
         log.info("Started submitOrder function in Controller");
-        CartOrderResponse cartDetail = orderServices.getCartDetailsService(order_id);
-        CartDetailResponse[] itemsList = orderServices.getItemsListService(order_id);
-        orderServices.saveOrdersService(cartDetail);
-        orderServices.saveDetailsService(itemsList,order_id);
+        CartResponse cartResponse = orderServices.getCartResponse(order_id);
+        orderServices.saveCartResponse(cartResponse,order_id,addressResponse.getAddress());
         log.info("End of submitOrder function in Controller");
         return new ResponseEntity<>("Created", HttpStatus.OK);
     }

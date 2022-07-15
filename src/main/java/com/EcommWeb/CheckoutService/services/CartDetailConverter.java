@@ -6,7 +6,7 @@ import com.EcommWeb.CheckoutService.models.CartDetailResponse;
 
 public class CartDetailConverter {
     public Details convertCartDetailResponseToDetails (CartDetailResponse cartDetailResponse, Orders orders){
-        Details details = new Details(cartDetailResponse.getItem(),cartDetailResponse.getQuantity(),orders);
+        Details details = new Details(cartDetailResponse.getId(),cartDetailResponse.getQuantity(),orders);
         return details;
     }
 }

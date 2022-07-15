@@ -5,6 +5,7 @@ import com.EcommWeb.CheckoutService.entities.Details;
 import com.EcommWeb.CheckoutService.entities.Orders;
 import com.EcommWeb.CheckoutService.models.CartDetailResponse;
 import com.EcommWeb.CheckoutService.models.CartOrderResponse;
+import com.EcommWeb.CheckoutService.models.CartResponse;
 import com.EcommWeb.CheckoutService.repository.DetailsRepository;
 import com.EcommWeb.CheckoutService.repository.OrdersRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Slf4j
@@ -29,20 +31,14 @@ public class OrderServices {
     private DetailsRepository detailsRepository;
     private final String CARTORDER_URL ="http://localhost:8082/carts/";
 
-    public CartOrderResponse getCartDetailsService(Integer order_id){
-        log.info("Started getCartDetailsService function from OrderServices");
+    public CartResponse getCartResponse(Integer order_id){
+        log.info("Started getCartResponse function from OrderServices");
         String URL = CARTORDER_URL + Integer.toString(order_id);
-        CartOrderResponse body = restTemplate.getForEntity(URL, CartOrderResponse.class).getBody();
-        log.info("Started getCartDetailsService function from OrderServices");
-        return body;
+        CartResponse cartResponse = restTemplate.getForEntity(URL,CartResponse.class).getBody();
+        log.info("End of getCartResponse function from OrderServices");
+        return cartResponse;
     }
-    public CartDetailResponse[] getItemsListService(Integer order_id){
-        log.info("Started getItemsListService function from OrderServices");
-        String URL = CARTORDER_URL + Integer.toString(order_id)+"/details";
-        CartDetailResponse[] body = restTemplate.getForEntity(URL, CartDetailResponse[].class).getBody();
-        log.info("End of getItemsListService function from OrderServices");
-        return body;
-    }
+
     public Orders saveOrdersService(CartOrderResponse cartDetail){
         log.info("Started saveOrdersService function from OrderServices");
         Orders orders = new Orders(cartDetail.getAmount(),new Date(),cartDetail.getAddress(),"Placed",cartDetail.getCartId());
@@ -59,6 +55,24 @@ public class OrderServices {
         }
         log.info("Started saveDetailsService function from OrdersService");
     }
+
+    public void saveCartResponse(CartResponse cartResponse,Integer order_id,String address){
+        log.info("Started saveCartResponse function from OrderServices");
+        Orders order=ordersRepository.findByCartId(order_id);
+        if(order!=null){
+            throw new ResourceNotFoundException("it is already present");
+        }
+        Orders orders = new Orders(cartResponse.getAmount(),new Date(),address,"Placed",cartResponse.getCartId());
+        ordersRepository.save(orders);
+        CartDetailConverter cartDetailConverter = new CartDetailConverter();
+        List<CartDetailResponse> itemsList =cartResponse.getItems();
+        for (CartDetailResponse x: itemsList){
+            Details detailsEntity = cartDetailConverter.convertCartDetailResponseToDetails(x,ordersRepository.findByCartId(order_id));
+            detailsRepository.save(detailsEntity);
+        }
+        log.info("End of saveCartResponse function from OrderServices");
+    }
+
     public void deleteOrderPlacedService(Integer order_id){
         log.info("Started deleteOrderPlacedService function from OrderService");
         Orders orders = ordersRepository.findByCartId(order_id);

@@ -1,24 +1,28 @@
 package com.EcommWeb.CheckoutService.models;
 
 public class CartDetailResponse {
-    private Integer item;
-    private float itemPrice;
+    private Integer id;
+    private float price;
     private Integer quantity;
 
-    public Integer getItem() {
-        return item;
+    private String imageUrl;
+
+    private String title;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setItem(Integer item) {
-        this.item = item;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public float getItemPrice() {
-        return itemPrice;
+    public float getPrice() {
+        return price;
     }
 
-    public void setItemPrice(float itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public Integer getQuantity() {
@@ -27,5 +31,21 @@ public class CartDetailResponse {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

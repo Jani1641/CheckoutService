@@ -15,12 +15,12 @@ public class Orders {
     private float amount;
     @Past
     private Date date;
-    @Size(max = 50)
-    private String address;
     @Size(max = 10)
     private String status;
 
     private Integer cartId;
+    @Column(unique = true)
+    private String address;
 
     public Integer getCartId() {
         return cartId;
