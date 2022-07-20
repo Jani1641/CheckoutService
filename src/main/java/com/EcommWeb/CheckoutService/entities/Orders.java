@@ -11,37 +11,28 @@ public class Orders {
     @Id
     @GeneratedValue
     private Integer orderId;
-
     private float amount;
     @Past
     private Date date;
     @Size(max = 10)
     private String status;
-
     private Integer cartId;
     @Column(unique = true)
     private String address;
-
-    public Integer getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(Integer cartId) {
-        this.cartId = cartId;
-    }
-
+    private String email;
     @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Details> detailsSet;
+    private List<Details> details;
 
     public Orders() {
     }
 
-    public Orders(float amount, Date date, String address, String status, Integer cartId) {
+    public Orders(float amount, Date date, String status, Integer cartId, String address, String email) {
         this.amount = amount;
         this.date = date;
-        this.address = address;
         this.status = status;
         this.cartId = cartId;
+        this.address = address;
+        this.email = email;
     }
 
     public Integer getOrderId() {
@@ -84,11 +75,28 @@ public class Orders {
         this.status = status;
     }
 
-    public List<Details> getDetailsSet() {
-        return detailsSet;
+    public List<Details> getDetails() {
+        return details;
     }
 
-    public void setDetailsSet(List<Details> detailsSet) {
-        this.detailsSet = detailsSet;
+    public void setDetailsSet(List<Details> details) {
+        this.details = details;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(Integer cartId) {
+        this.cartId = cartId;
+    }
+
 }

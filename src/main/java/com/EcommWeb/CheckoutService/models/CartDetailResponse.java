@@ -4,9 +4,7 @@ public class CartDetailResponse {
     private Integer id;
     private float price;
     private Integer quantity;
-
     private String imageUrl;
-
     private String title;
 
     public Integer getId() {

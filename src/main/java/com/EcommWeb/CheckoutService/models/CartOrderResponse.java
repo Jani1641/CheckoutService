@@ -4,6 +4,7 @@ public class CartOrderResponse {
     private float amount;
     private String address;
     private Integer cartId;
+    private String email;
 
     public float getAmount() {
         return amount;
@@ -11,6 +12,14 @@ public class CartOrderResponse {
 
     public void setAmount(float amount) {
         this.amount = amount;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAddress() {

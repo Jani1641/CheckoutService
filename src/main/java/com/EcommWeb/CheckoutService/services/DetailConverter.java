@@ -9,12 +9,15 @@ public class DetailConverter {
         DetailsResponse response = new DetailsResponse.DetailsResponseBuilder()
                 .item_id(details.getItemId())
                 .quantity(details.getQuantity())
+                .imageUrl(details.getImageUrl())
+                .price(details.getPrice())
+                .title(details.getTitle())
                 .build();
         return response;
     }
 
     public Details convertDetailsResponseToDetails (DetailsResponse detailsResponse, Orders orders){
-        Details details = new Details(detailsResponse.getItem_id(),detailsResponse.getQuantity(),orders);
+        Details details = new Details(detailsResponse.getItem_id(),detailsResponse.getQuantity(),detailsResponse.getImageUrl(),detailsResponse.getTitle(), detailsResponse.getPrice(),orders);
         return details;
     }
 }

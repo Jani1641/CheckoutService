@@ -1,12 +1,15 @@
 package com.EcommWeb.CheckoutService.models;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrdersResponse {
     private float amount;
     private String address;
     private String status;
     private Date date;
+
+    private List<DetailsResponse> detailsResponse;
 
     public float getAmount() {
         return amount;
@@ -40,17 +43,27 @@ public class OrdersResponse {
         this.date = date;
     }
 
+    public List<DetailsResponse> getDetailsResponse() {
+        return detailsResponse;
+    }
+
+    public void setDetailsResponse(List<DetailsResponse> detailsResponse) {
+        this.detailsResponse = detailsResponse;
+    }
+
     private OrdersResponse(OrdersResponseBuilder ordersResponseBuilder){
         this.amount = ordersResponseBuilder.amount;
         this.address = ordersResponseBuilder.address;
         this.status = ordersResponseBuilder.status;
         this.date = ordersResponseBuilder.date;
+        this.detailsResponse=ordersResponseBuilder.detailsResponses;
     }
     public static class OrdersResponseBuilder{
         private float amount;
         private String address;
         private String status;
         private Date date;
+        private List<DetailsResponse> detailsResponses;
 
         public OrdersResponseBuilder amount(float amount){
             this.amount = amount;
@@ -67,6 +80,10 @@ public class OrdersResponse {
         }
         public OrdersResponseBuilder date(Date date){
             this.date = date;
+            return this;
+        }
+        public OrdersResponseBuilder detailsResponse(List<DetailsResponse> detailsResponses){
+            this.detailsResponses=detailsResponses;
             return this;
         }
         public OrdersResponse build(){
