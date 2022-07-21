@@ -30,10 +30,10 @@ public class OrderServices {
     private OrdersRepository ordersRepository;
     @Autowired
     private DetailsRepository detailsRepository;
-    private final String CARTORDER_URL ="http://localhost:8082/carts/";
+    private final String CART_ORDER_URL ="http://localhost:8082/carts/";
     public CartResponse getCartResponse(Integer order_id){
         log.info("Started getCartResponse function from OrderServices");
-        String URL = CARTORDER_URL + Integer.toString(order_id);
+        String URL = CART_ORDER_URL + order_id;
         CartResponse cartResponse = restTemplate.getForEntity(URL,CartResponse.class).getBody();
         log.info("End of getCartResponse function from OrderServices");
         return cartResponse;

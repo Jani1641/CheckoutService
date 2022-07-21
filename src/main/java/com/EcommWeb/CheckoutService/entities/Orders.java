@@ -12,7 +12,6 @@ public class Orders {
     @GeneratedValue
     private Integer orderId;
     private float amount;
-    @Past
     private Date date;
     @Size(max = 10)
     private String status;
